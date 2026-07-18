@@ -6,7 +6,7 @@ Unity Localization Assistant is a schema-driven Unity Editor package for project
 
 It is useful when a project has many data assets—items, characters, quests, abilities, dialogue records, and similar content—and needs one repeatable contract between those assets and Unity Localization String Tables.
 
-> **Current release:** `0.1.0-alpha.1`. Scanning and validation are available as Editor C# APIs. A review window, translation generation, and applying changes to assets or String Tables are not implemented yet.
+> **Current development version:** `0.1.0-alpha.1`. No tag or GitHub Release has been published. Scanning and validation are available as Editor C# APIs. A review window, translation generation, and applying changes to assets or String Tables are not implemented yet.
 
 ## What it can do
 
