@@ -1,88 +1,83 @@
-# GitHub 发布准备度审查
+# GitHub 发布准备度
 
-## 结论
+## 当前结论
 
-当前仓库适合作为 **pre-alpha / read-only core** 公开，用于展示项目方向、Unity Package Manager 包结构、开放 Agent Skill、Codex 适配层，以及可测试的 schema/扫描/key/验证内核；它尚不适合作为能够安全写回资产的完整本地化工具发布。
+仓库已经公开，里程碑 A–D 已合入 `main`，Unity 2022.3.62f3 的远端
+EditMode workflow 已成功运行。当前能力仍是 **alpha 阶段的只读内核**：schema、
+扫描、key ownership 和结构化验证可用，但没有 review UI、事务式 Apply 或
+`LocalizedString` 写回。
 
-如果发布当前只读内核，应在 README、GitHub Release 和版本标签中明确说明尚无 review UI 或事务式 Apply。如果发布说明承诺能够写入 Localization tables 或回写 `LocalizedString`，则以下阻断项必须先解决。
+包与 Codex plugin 统一声明 `0.1.0-alpha.1`，但尚未创建 tag 或 GitHub
+Release。这是开发版本声明，不是已发布版本。正式 `v0.1.0` 暂不发布。
 
-## 阻断可用 release 的项目
+## 已完成的开源基线
 
-1. **写入闭环尚不存在。** Schema v1、扫描、key 生成、Localization table 只读解析和结构化验证已实现，但 review UI 和事务式 Apply/引用回写尚未完成。
-2. **Apply 行为测试尚未实现。** Schema、扫描、key 生成与 ownership、重复 key、required locale、placeholder parity 和 dry-run 已有 EditMode 覆盖；仍需覆盖事务式写表、引用回写、Undo、stale draft 与幂等性。
-3. **CI 尚未完成首次远端运行。** Unity 2022.3 fixture、失败阻断脚本和 GitHub Actions 工作流已经存在，并已在 2022.3.62f3 中人工和本地 batchmode 通过；仍需配置 Unity license secrets 并取得首次 CI 通过记录。
-4. **Sample 仍是骨架示例。** Generic Item Catalog 已可从 Package Manager 导入并编译，Schema v1 文档可以表达该虚构类型，但尚未展示扫描到 String Table 的完整、可复现流程。
-5. **Git 历史尚未发布。** A+B 基线提交已存在于本地，但尚未推送；C 与 D 仍是未暂存改动。发布前需要分别审阅提交边界、提交公开文件并配置或确认 GitHub 远端。
+- MIT 根许可证与包内许可证齐全。
+- UPM package、Editor/Test/Sample asmdef、开放 Agent Skill 和 Codex adapter
+  已建立；package manifest 已声明 Generic Item Catalog Sample。
+- Schema v1、确定性只读扫描、key/ownership 和 validation 已实现并有
+  EditMode 覆盖。
+- Unity 2022.3.62f3 干净 fixture 已完成导入、编译和 47 个 EditMode tests；
+  GitHub Actions 的 PR 与 push 检查均成功。
+- CI 对缺失 Unity license 提供明确预检，并固定保存失败前的日志与 NUnit
+  结果。
+- Agent Skill、plugin/package JSON 和 Editor assembly 边界已有本地验证。
+- 未发现凭据、私钥、生产游戏数据、固定生产 table GUID、付费 Asset Store
+  源码或美术内容。
+- 首次开源治理文件、Issue forms、PR template、版本策略和 Milestone E 计划
+  已纳入本轮治理工作。
 
-## 优先改进
+历史验证轮次和复现步骤统一记录在 [`testing.md`](testing.md)，不在本页维护
+多个相互冲突的测试计数。
 
-### P0：形成最小可用核心
+## 当前发布阻断项
 
-- 保持版本化 schema、扫描、key、引用解析和验证内核的公共契约稳定。
-- 增加 Unity Localization adapter，通过 Editor API 执行查表、创建 key、写入 locale table、回写 `LocalizedString`、Undo、dirty 和 save。
-- Apply 前提供 dry-run 和冲突报告；不得静默覆盖由其他资产占用的 key。
-- 实现事务式 Apply、引用回写、Undo、stale draft 拒绝和幂等性测试。
-- 增加 Editor tests，并在 CI 中运行。
+1. **事务式 Apply 尚未实现。** 必须完成 stale-state 检测、共享 key/locale
+   写入、嵌套引用回写、Undo、dirty/save、回滚或预提交失败保证。
+2. **Apply 安全矩阵尚未通过。** 需要覆盖 PreserveExisting、FillMissing、
+   显式 Overwrite、幂等性、部分失败和 stale draft。
+3. **Editor review workflow 尚未实现。** 用户还不能在通用 UI 中审阅 diff、
+   逐条启用并安全 Apply。
+4. **Sample 尚未端到端。** Generic Item Catalog 可以导入编译，但尚未展示
+   扫描、审阅、写表、引用回写和重开后的持久化闭环。
+5. **发布自动化仍需收口。** 正式 prerelease 前仍需重复验证开放 Agent
+   Skills 格式、Codex plugin manifest、clean Git URL install、来源/许可证和
+   敏感信息检查。
 
-### P1：完成可复现使用体验
+## 预发布策略
 
-- 提供通用 EditorWindow：选择或扫描资产、预览草稿、逐条启用、人工修订、验证并应用。
-- 完成一个只含原创虚构数据的 Sample，覆盖安装、schema 配置、生成 key、写表和验证。
-- 扩充根 README 与包 README：支持版本、依赖、UPM Git 安装方式、通用 Agent Skill 使用方式、Codex plugin 安装方式、平台支持矩阵、最小示例、已知限制和故障排查。
-- 在包目录加入许可证，并补充 `CONTRIBUTING.md`、`SECURITY.md`、`.gitattributes` 及适当的 issue/PR 模板。
-- 为 `package.json` 补充文档、变更日志、许可证和作者/仓库链接；Sample 可用后增加 manifest 中的 samples 声明。
+详细规则见 [`versioning.md`](versioning.md)：
 
-### P2：可选扩展
+- Milestones E/F 使用 `0.1.0-alpha.N`；每次真正发布 prerelease 才递增。
+- Apply 与 Editor workflow 功能完整后进入 `beta.N`。
+- 功能冻结、只修发布阻断项时进入 `rc.N`。
+- 只有 Milestone G 的全部门槛通过后才发布稳定 `0.1.0`。
 
-- 在核心稳定后再设计 CSV import/export。
-- 机器翻译应采用可替换 provider 接口；DeepL、OpenAI 等集成需要处理凭证安全、速率限制、重试、成本提示和逐条预览，不应与核心 schema 或写表逻辑耦合。
-- 术语规则应来自项目配置，不应把任何生产项目的专用术语硬编码到 package core。
+package manifest、Codex plugin manifest、changelog 条目、tag 和 Release 必须
+一致；普通合并不创建 tag 或 Release。所有非稳定 GitHub Release 必须标记为
+prerelease。
 
-## 版本兼容性判断
+## 下一门槛
 
-`package.json` 声明最低 Unity 版本为 `2022.3`，并依赖 `com.unity.localization` `1.5.9`。只读参考项目的 `ProjectVersion.txt` 显示 Unity `2022.3.62f3`，其 package lock 也解析到 Localization `1.5.9`，因此“该依赖组合明显不兼容”的疑虑已降级，不再单独视为发布阻断。
+### Milestone E — Transactional Apply
 
-本仓库的最小 fixture 随后已在 Unity `2022.3.62f3` 中完成自身验证：本地 UPM 包解析和编译无 Console 错误，Generic Item Catalog Sample 导入后编译无错误，EditMode Test Runner 能发现并通过 `PackageSmokeTests.PackageIdentity_IsStable`。这满足里程碑 A 的人工实机验收；正式 release 前仍需取得 CI 运行记录，并在条件允许时补充最低 `2022.3` 初始版本或其他支持版本的矩阵验证。
+按 [`milestone-e-transactional-apply.md`](milestone-e-transactional-apply.md)
+先冻结 Apply plan/fingerprint/change report 契约，再实现 Unity Localization
+adapter、SerializedProperty 写回、事务边界和安全测试。
 
-## 已通过的检查
+### Milestone F — Editor workflow
 
-- 根目录包含完整 MIT License 文本。
-- package、plugin 和 Editor assembly definition 的 JSON 语法有效。
-- package 与 plugin 的版本号当前一致，均为 `0.1.0`。
-- 包内已有 `CHANGELOG.md`，记录了初始 scaffold 版本。
-- UPM 包目录包含独立的 `LICENSE.md`。
-- Unity 2022.3.62f3 fixture 已成功解析并编译本地包，Console 无错误。
-- Generic Item Catalog Sample 已通过 Package Manager 导入并编译，Console 无错误。
-- EditMode Test Runner 已发现并通过 package smoke test。
-- 已提供本地 batchmode 验证脚本和 GitHub Actions EditMode 工作流；测试失败或零测试会阻断任务。
-- Schema v1 Asset、规范化 Definition、领域模型和稳定诊断 code 已实现并记录在 `docs/schema-v1.md`。
-- Unity 2022.3.62f3 干净临时 fixture 的 batchmode 导入、编译和 19 个 EditMode tests 已全部通过。
-- 里程碑 D 后再次使用无 `Library` 的全新 fixture 验证，首次导入/编译成功，47 个 EditMode tests 全部通过。
-- `.gitignore` 已覆盖主要 Unity 缓存、构建目录和常见 IDE 产物。
-- 未发现疑似 API key、访问令牌、私钥或密码。
-- 未发现写入文档或源码的本机用户绝对路径。
-- 未发现超过 1 MiB 的非 Git 文件。
-- 当前仓库未包含参考游戏的生产数据、固定 table GUID、付费 Asset Store 代码或美术资源。
+提供 schema 选择、Scan/Rescan、diff/diagnostic review、逐条启用、错误阻断、
+警告确认和诊断定位，并用原创 Sample 完成端到端验证。
 
-配套 Agent Skill 已通过本地 `quick_validate.py` 校验。Plugin、package 和 asmdef 已通过 JSON 语法解析；正式发布时仍应把开放 Agent Skills 格式校验、Codex plugin manifest 校验和 OpenAI 元数据一致性检查加入可重复执行的发布检查。
+### Milestone G — stable v0.1.0
 
-## 建议发布门槛
+- 在最低支持 Unity 版本的干净项目中完成 Git URL install、Sample、全部
+  EditMode tests 和持久化验证。
+- README、包文档、限制、故障排查、升级/兼容说明与 changelog 齐全。
+- 共享 Agent Skill 只有一个规范源，开放格式与 Codex adapter 校验通过。
+- 来源、许可证、安全和敏感信息审查通过。
+- 所有公开功能声明均可由 Sample 和自动化测试复现。
 
-### Scaffold 公开门槛
-
-- README 和 Release Notes 明确标注 pre-alpha / scaffold，以及当前不能完成哪些工作。
-- 许可证、manifest、敏感信息和提交范围复核通过。
-- 建立首个干净提交，不包含参考项目或第三方商业资产。
-- 不创建暗示功能已可用的稳定版 release；可使用源码公开或明确的 pre-release 标签。
-
-### 首个可用 release 门槛
-
-- 完成 P0 最小核心和至少一个端到端 Sample。
-- schema、key 生成和验证行为具有自动化测试。
-- CI 在最低 Unity 版本上通过编译与 Editor tests。
-- 在干净项目中通过 Git URL/本地包安装、导入、扫描、dry-run、写表和重新打开项目后的持久化验证。
-- README、包文档、变更日志、包内许可证和升级/兼容说明齐全。
-- 共享 Agent Skill 只有一个规范源；至少验证 Codex 适配入口和一个非 Codex 的 skills-compatible 客户端，并记录各目标客户端的发现位置、工具前置条件和不支持能力时的降级行为。
-- 完成一次来源与许可证审查，确认核心与 Sample 均不含参考项目的私有标识、生产内容或第三方 Asset Store 材料。
-
-满足 Scaffold 门槛后可以公开仓库；只有满足“首个可用 release 门槛”后，才应把该项目描述为可安装、可执行的 Unity 本地化工具。
+在这些条件满足前，项目应明确描述为 alpha/read-only core，而不是完整、
+可安全写回资产的 Unity 本地化工具。

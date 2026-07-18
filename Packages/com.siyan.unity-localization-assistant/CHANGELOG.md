@@ -1,6 +1,9 @@
 # Changelog
 
-## [0.1.0] - 2026-07-18
+## [Unreleased]
+
+This repository currently uses the `0.1.0-alpha.N` prerelease line. No stable
+`0.1.0` release has been published.
 
 - Created the package and platform-neutral Agent Skill scaffold.
 - Added the initial Codex plugin adapter for distributing the shared skill.

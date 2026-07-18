@@ -99,7 +99,7 @@ A schema for the fictional Sample can use:
 ```text
 sourceType: Siyan.UnityLocalizationAssistant.Samples.GenericItemCatalog.GenericCatalogItem,
             Siyan.UnityLocalizationAssistant.Samples.GenericItemCatalog
-sourceFolders: Assets/Samples/Unity Localization Assistant/0.1.0/Generic Item Catalog/Data
+sourceFolders: Assets/Samples/Unity Localization Assistant/<package-version>/Generic Item Catalog/Data
 identityPath: stableId
 requiredLocales: en, zh-Hans
 target name: propertyPath=displayName, keyTemplate={sourceId}.{targetId}

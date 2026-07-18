@@ -1,0 +1,49 @@
+name: Bug report
+description: Report a reproducible defect in the package, skill, or adapter.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Security vulnerabilities must be reported privately according to SECURITY.md.
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      options: [Unity package, Agent Skill, Codex plugin, Documentation or CI]
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Unity, package, Unity Localization, OS, and agent/client versions as applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest deterministic reproduction.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and diagnostics
+      description: Attach redacted logs or a minimal fictional project when useful.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Source and privacy checks
+      options:
+        - label: I removed credentials, private identifiers, production content, and paid assets.
+          required: true

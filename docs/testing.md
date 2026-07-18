@@ -31,7 +31,7 @@ Use these steps when GUI verification is faster or batchmode cannot activate a l
 4. Open **Window > General > Test Runner**, select **EditMode**, and confirm `Siyan.UnityLocalizationAssistant.Editor.Tests.PackageSmokeTests.PackageIdentity_IsStable` is listed.
 5. Choose **Run All**. Expected result: at least one test runs and all tests pass.
 6. Open **Window > Package Manager**, select **Unity Localization Assistant**, open **Samples**, and import **Generic Item Catalog**.
-7. Wait for compilation, confirm the Console still contains no errors, and confirm `Assets/Samples/Unity Localization Assistant/0.1.0/Generic Item Catalog` contains the sample README, assembly definition, and `GenericCatalogItem.cs`.
+7. Wait for compilation, confirm the Console still contains no errors, and confirm `Assets/Samples/Unity Localization Assistant/<package-version>/Generic Item Catalog` contains the sample README, assembly definition, and `GenericCatalogItem.cs`.
 8. Optionally create a sample asset with **Assets > Create > Localization Assistant Samples > Generic Catalog Item** and confirm its Inspector shows stable ID, display name, and description fields.
 
 When reporting a manual run, include the exact Unity version, Console error count, EditMode passed/failed/skipped counts, and whether the sample imported and compiled.

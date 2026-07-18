@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose a focused improvement or public contract change.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or workflow problem needs solving?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Best-fit scope
+      options: [Package core, Sample or project integration, Agent Skill, Platform adapter, Documentation or CI]
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and compatibility impact
+      description: Include API, schema, Unity-version, migration, or breaking-change considerations.
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Project boundaries
+      options:
+        - label: The proposal does not require Mimic-specific or non-redistributable content in package core.
+          required: true

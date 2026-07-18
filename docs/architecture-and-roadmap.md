@@ -324,6 +324,9 @@ Packages/com.siyan.unity-localization-assistant/
 
 ### 里程碑 E：实现事务式 Apply
 
+状态：已开始规划。工作拆分、关键契约、依赖顺序和验收矩阵见
+[`milestone-e-transactional-apply.md`](milestone-e-transactional-apply.md)。
+
 任务：
 
 1. 实现 `PreserveExisting`、`FillMissing` 和 `Overwrite`。
@@ -382,18 +385,11 @@ Packages/com.siyan.unity-localization-assistant/
 
 ## 建议的首批 GitHub Issues
 
-1. `Define schema v1 and diagnostic contracts`
-2. `Create Unity 2022.3 package test fixture and CI`
-3. `Implement ScriptableObject source discovery`
-4. `Implement SerializedProperty target traversal`
-5. `Resolve existing LocalizedString references and values`
-6. `Implement deterministic key templates and ownership index`
-7. `Implement required locale and duplicate key validators`
-8. `Implement Smart String placeholder validation`
-9. `Implement dry-run draft and structured diff`
-10. `Implement transactional apply and reference writeback`
-11. `Build generic EditorWindow review workflow`
-12. `Create Generic Item Catalog sample and documentation`
+里程碑 A–D 已完成，不再为历史工作补建未关闭 Issue。首批公开 Issue
+从里程碑 E 开始，并按
+[`milestone-e-transactional-apply.md`](milestone-e-transactional-apply.md)
+拆分为 Apply plan/fingerprint、Unity Localization adapter、引用回写、事务边界、
+安全测试和操作文档；后续分别归入 Editor workflow 与稳定 `v0.1.0` 里程碑。
 
 ## Mimic 原型迁移映射
 
