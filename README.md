@@ -32,6 +32,12 @@ Compatibility means that the workflow contract is portable; it does not promise 
 
 Milestones A-D are implemented: the package has a testable Unity 2022.3 scaffold, public Schema v1 contracts, deterministic read-only ScriptableObject scanning, normalized key ownership, and structured validation reports. Apply remains a future milestone.
 
+Package and Codex plugin manifests currently use `0.1.0-alpha.1`. No stable
+`v0.1.0` or formal prerelease has been published. See
+[`docs/versioning.md`](docs/versioning.md) for the prerelease progression and
+[`docs/milestone-e-transactional-apply.md`](docs/milestone-e-transactional-apply.md)
+for the next implementation plan.
+
 ## Validate the package
 
 The committed fixture imports the package through a local UPM `file:` dependency, compiles it, and exposes package tests through the fixture manifest's `testables` list.

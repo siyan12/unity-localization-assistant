@@ -1,6 +1,6 @@
 {
   "name": "unity-localization-assistant",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "A schema-driven Unity Localization editor package with a portable Agent Skill distributed through Codex.",
   "author": {
     "name": "siyan12"
