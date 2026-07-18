@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  UNITY_ARTIFACTS_PATH: artifacts/unity-editmode
+
 jobs:
   editmode:
     name: Unity 2022.3.62f3 EditMode
@@ -16,6 +19,15 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Validate Unity license configuration
+        shell: pwsh
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:UNITY_LICENSE)) {
+            throw "::error::Missing required repository secret UNITY_LICENSE. Configure the Unity license before running this workflow."
+          }
 
       - name: Import package, compile, and run EditMode tests
         id: unity-tests
@@ -28,18 +40,18 @@ jobs:
           projectPath: Tests/UnityProject
           unityVersion: 2022.3.62f3
           testMode: editmode
-          artifactsPath: artifacts/unity-editmode
+          artifactsPath: ${{ env.UNITY_ARTIFACTS_PATH }}
 
       - name: Verify tests were discovered and passed
         shell: pwsh
         run: >-
           ./scripts/Assert-UnityTestResults.ps1
-          -ResultsPath '${{ steps.unity-tests.outputs.artifactsPath }}'
+          -ResultsPath '${{ env.UNITY_ARTIFACTS_PATH }}'
 
       - name: Upload Unity logs and test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: unity-editmode-results
-          path: ${{ steps.unity-tests.outputs.artifactsPath }}
+          path: ${{ env.UNITY_ARTIFACTS_PATH }}
           if-no-files-found: warn
