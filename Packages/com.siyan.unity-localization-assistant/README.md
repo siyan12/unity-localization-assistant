@@ -1,8 +1,12 @@
 # Unity Localization Assistant package
 
-This package provides a testable foundation and the public Schema v1/domain contracts for schema-driven Unity Localization editor workflows. Scanning and asset-generation services will be introduced in later milestones.
+This package provides a testable foundation, public Schema v1/domain contracts, and deterministic read-only scanning for schema-driven Unity Localization editor workflows.
 
 Create a schema from **Assets > Create > Localization Assistant > Schema**. Invalid configuration is reported through stable diagnostics by `LocalizationSchemaReader`; see the repository's `docs/schema-v1.md` for the complete v1 contract.
+
+After reading a valid schema, call `SchemaScanner.Scan`. The scanner resolves an arbitrary `ScriptableObject` source type, searches configured `sourceFolders` with `AssetDatabase`, traverses top-level and nested serialized properties (including private `[SerializeField] LocalizedString` fields), reads existing references and locale values, and returns `LocalizationDraftEntry` objects plus diagnostics. Scanning is a dry run: it does not dirty or save source assets, tables, or schema assets.
+
+Key validation, proposed locale value generation, transactional Apply, and reference writeback are not part of the read-only milestone.
 
 ## Requirements
 

@@ -3,7 +3,8 @@
   "rootNamespace": "Siyan.UnityLocalizationAssistant.Editor.Tests",
   "references": [
     "Siyan.UnityLocalizationAssistant.Editor",
-    "Unity.Localization"
+    "Unity.Localization",
+    "Unity.Localization.Editor"
   ],
   "includePlatforms": [
     "Editor"

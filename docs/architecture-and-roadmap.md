@@ -275,6 +275,8 @@ Packages/com.siyan.unity-localization-assistant/
 
 ### 里程碑 C：实现只读扫描与草稿生成
 
+状态：已于 2026-07-18 实施。支持任意 `ScriptableObject` source type 解析、按 `sourceFolders` 的确定性资产发现、顶层/private `[SerializeField]`/嵌套集合属性遍历、现有 `LocalizedString` key 与 locale value 读取，以及不修改资产的 `LocalizationDraftEntry` 生成。相关 EditMode tests 覆盖失效路径、确定性顺序和 dry-run 不变性。
+
 任务：
 
 1. 通过类型名解析任意 `ScriptableObject` 类型。

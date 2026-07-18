@@ -7,3 +7,4 @@
 - Added Editor, EditMode test, and sample assembly boundaries.
 - Added a Unity 2022.3 test fixture, batchmode validation scripts, and CI workflow.
 - Added the versioned Schema v1 asset, normalized definitions, domain models, stable diagnostics, and EditMode tests.
+- Added deterministic read-only ScriptableObject discovery, serialized property traversal, existing `LocalizedString` reference resolution, draft generation, and scanner EditMode tests.

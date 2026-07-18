@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Tables;
 
 namespace Siyan.UnityLocalizationAssistant.Editor
 {
@@ -95,6 +96,8 @@ namespace Siyan.UnityLocalizationAssistant.Editor
         [SerializeField] private string elementIdentity = string.Empty;
         [SerializeField] private string suggestedKey = string.Empty;
         [SerializeField] private string existingKey = string.Empty;
+        [SerializeField] private TableReference existingTableReference;
+        [SerializeField] private TableEntryReference existingEntryReference;
         [SerializeField] private List<LocalizationDraftLocaleValue> localeValues = new List<LocalizationDraftLocaleValue>();
         [SerializeField] private ChangeKind changeKind;
         [SerializeField] private List<LocalizationDiagnostic> diagnostics = new List<LocalizationDiagnostic>();
@@ -107,6 +110,8 @@ namespace Siyan.UnityLocalizationAssistant.Editor
         public string ElementIdentity { get => elementIdentity; set => elementIdentity = value ?? string.Empty; }
         public string SuggestedKey { get => suggestedKey; set => suggestedKey = value ?? string.Empty; }
         public string ExistingKey { get => existingKey; set => existingKey = value ?? string.Empty; }
+        public TableReference ExistingTableReference { get => existingTableReference; set => existingTableReference = value; }
+        public TableEntryReference ExistingEntryReference { get => existingEntryReference; set => existingEntryReference = value; }
         public List<LocalizationDraftLocaleValue> LocaleValues => localeValues;
         public ChangeKind ChangeKind { get => changeKind; set => changeKind = value; }
         public List<LocalizationDiagnostic> Diagnostics => diagnostics;

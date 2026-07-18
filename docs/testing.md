@@ -42,6 +42,8 @@ On 2026-07-18, the fixture was opened with Unity 2022.3.62f3. The local package 
 
 Later on the same date, the batchmode workflow was run against a clean temporary copy of the fixture with Unity 2022.3.62f3 after Schema v1 implementation. Package import and compilation succeeded, and all 19 EditMode tests passed with 0 failures. A deliberately failing intermediate run returned a non-zero process result, confirming that the wrapper blocks on test failure.
 
+After the read-only scanner milestone, the same Unity version compiled the package and passed all 29 EditMode tests with 0 failures in an isolated fixture. The scanner tests cover deterministic ordering, top-level/private and nested/direct collection traversal, empty and invalid property paths, existing table/entry/key/locale reads, wrong or unresolved references, and byte-for-byte dry-run source/table asset stability.
+
 ## GitHub Actions
 
 `.github/workflows/unity-editmode.yml` runs the fixture with `game-ci/unity-test-runner@v4` and uploads logs/results even if the test step fails. Configure Unity licensing secrets according to the repository's license type. A missing license prevents Unity from starting and is an infrastructure failure, not a package validation pass.

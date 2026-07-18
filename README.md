@@ -22,13 +22,13 @@ The skill does not grant capabilities by itself. An agent still needs access to 
 | Open Agent Skills format | Scaffold validated | Canonical `skills/unity-localization-assistant/SKILL.md` |
 | Codex | Adapter scaffold included | `.codex-plugin/plugin.json` distributes the canonical skill |
 | Other skills-compatible clients | Portable content, not yet verified per client | Install or link the canonical skill using the client's supported skill location |
-| Unity automation | Milestone A fixture available | `Tests/UnityProject`, local batchmode script, and GitHub Actions EditMode workflow |
+| Unity automation | Read-only scanning available | `SchemaScanner`, `Tests/UnityProject`, local batchmode script, and GitHub Actions EditMode workflow |
 
 Compatibility means that the workflow contract is portable; it does not promise automatic discovery, identical tool names, or equivalent permissions in every agent client.
 
 ## Status
 
-Testable package scaffold (`0.1.0`). The public schema and editor implementation are the next milestones.
+Milestones A-C are implemented: the package has a testable Unity 2022.3 scaffold, public Schema v1 contracts, and deterministic read-only ScriptableObject scanning that emits localization drafts without modifying assets. Validation and Apply services remain future milestones.
 
 ## Validate the package
 
@@ -45,6 +45,7 @@ You can omit `-UnityEditorPath` when `UNITY_EDITOR_PATH` is set or Unity Hub has
 GitHub Actions runs the same fixture with Unity 2022.3.62f3, the version used for the first successful manual import and EditMode validation. Configure the repository's `UNITY_LICENSE` secret (and `UNITY_EMAIL` / `UNITY_PASSWORD` when required by the chosen Unity license activation method) before enabling the workflow. The test runner step is not allowed to continue on error, so compilation or test failures block the job.
 
 See [`docs/testing.md`](docs/testing.md) for Unity Editor and sample-import verification steps.
+See [`docs/scanning.md`](docs/scanning.md) for the read-only scanner contract and current limitations.
 
 ## Planning and research
 
