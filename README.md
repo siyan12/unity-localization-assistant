@@ -1,5 +1,7 @@
 # Unity Localization Assistant
 
+English | [简体中文](README.zh-CN.md)
+
 A schema-driven Unity Localization editor package with a companion open Agent Skill and a Codex plugin adapter.
 
 The package will help projects map ScriptableObject fields to localization keys and locale tables while validating duplicate keys, missing locales, terminology, and placeholder parity.
@@ -42,7 +44,7 @@ With Unity 2022.3 and PowerShell 7 or newer installed, run from `pwsh`:
 
 You can omit `-UnityEditorPath` when `UNITY_EDITOR_PATH` is set or Unity Hub has a `2022.3.x` Editor in its default Windows location. The command first performs a clean package import/compilation pass, then runs EditMode tests. A missing result file, zero discovered tests, a failed test, a compile error, or a non-zero Unity process exit code fails the script.
 
-GitHub Actions runs the same fixture with Unity 2022.3.62f3, the version used for the first successful manual import and EditMode validation. Configure the repository's `UNITY_LICENSE` secret (and `UNITY_EMAIL` / `UNITY_PASSWORD` when required by the chosen Unity license activation method) before enabling the workflow. The test runner step is not allowed to continue on error, so compilation or test failures block the job.
+GitHub Actions runs the same fixture with Unity 2022.3.62f3, the version used for the first successful manual import and EditMode validation. Configure the repository's `UNITY_LICENSE` secret (and `UNITY_EMAIL` / `UNITY_PASSWORD` when required by the chosen Unity license activation method) before enabling the workflow. A preflight step reports a clear configuration error when `UNITY_LICENSE` is absent. The test runner step is not allowed to continue on error, so compilation or test failures block the job; logs and results produced before a failure are still uploaded from the fixed `artifacts/unity-editmode` path.
 
 See [`docs/testing.md`](docs/testing.md) for Unity Editor and sample-import verification steps.
 See [`docs/scanning.md`](docs/scanning.md) for the read-only scanner contract and current limitations.

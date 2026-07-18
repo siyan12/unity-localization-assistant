@@ -48,4 +48,6 @@ After the key and validation milestone, a new fixture with no `Library` and only
 
 ## GitHub Actions
 
-`.github/workflows/unity-editmode.yml` runs the fixture with `game-ci/unity-test-runner@v4` and uploads logs/results even if the test step fails. Configure Unity licensing secrets according to the repository's license type. A missing license prevents Unity from starting and is an infrastructure failure, not a package validation pass.
+`.github/workflows/unity-editmode.yml` runs the fixture with `game-ci/unity-test-runner@v4`. Configure `UNITY_LICENSE` and, when required by the repository's license type, `UNITY_EMAIL` and `UNITY_PASSWORD` as repository secrets. The license preflight checks only whether `UNITY_LICENSE` is present and never prints its value. A missing license stops before the test runner with a clear infrastructure error, not a package validation pass.
+
+The workflow uses the fixed `artifacts/unity-editmode` directory for both result verification and artifact upload instead of relying on a step output that may be unset when the test action fails early. The upload step runs even after test failure, preserving any logs and NUnit XML already produced; if licensing fails before files exist, the upload reports only a no-files warning.
