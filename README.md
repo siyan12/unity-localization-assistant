@@ -1,5 +1,7 @@
 # Unity Localization Assistant
 
+English | [简体中文](README.zh-CN.md)
+
 A schema-driven Unity Localization editor package with a companion open Agent Skill and a Codex plugin adapter.
 
 The package will help projects map ScriptableObject fields to localization keys and locale tables while validating duplicate keys, missing locales, terminology, and placeholder parity.
