@@ -1,0 +1,8 @@
+{
+  "name": "Siyan.UnityLocalizationAssistant.Samples.GenericItemCatalog",
+  "rootNamespace": "Siyan.UnityLocalizationAssistant.Samples.GenericItemCatalog",
+  "references": [
+    "Unity.Localization"
+  ],
+  "autoReferenced": true
+}

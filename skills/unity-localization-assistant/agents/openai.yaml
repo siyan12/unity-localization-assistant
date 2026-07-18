@@ -1,0 +1,4 @@
+interface:
+  display_name: "Unity Localization Assistant"
+  short_description: "Build schema-driven Unity localization workflows."
+  default_prompt: "Use $unity-localization-assistant to configure a Unity localization workflow for this project."

@@ -1,0 +1,12 @@
+{
+  "name": "Siyan.UnityLocalizationAssistant.Editor",
+  "rootNamespace": "Siyan.UnityLocalizationAssistant.Editor",
+  "references": [
+    "Unity.Localization",
+    "Unity.Localization.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}

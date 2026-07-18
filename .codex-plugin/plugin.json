@@ -1,0 +1,18 @@
+{
+  "name": "unity-localization-assistant",
+  "version": "0.1.0",
+  "description": "A schema-driven Unity Localization editor package with a portable Agent Skill distributed through Codex.",
+  "author": {
+    "name": "siyan12"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Unity Localization Assistant",
+    "shortDescription": "Build schema-driven Unity localization workflows.",
+    "longDescription": "Configure and maintain Unity Localization tables from project-defined ScriptableObject schemas, using a platform-neutral Agent Skill packaged for Codex.",
+    "developerName": "siyan12",
+    "category": "Developer Tools",
+    "capabilities": ["Write"],
+    "defaultPrompt": "Configure a schema-driven localization workflow for this Unity project."
+  }
+}

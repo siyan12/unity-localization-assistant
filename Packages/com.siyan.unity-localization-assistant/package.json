@@ -1,0 +1,26 @@
+{
+  "name": "com.siyan.unity-localization-assistant",
+  "version": "0.1.0",
+  "displayName": "Unity Localization Assistant",
+  "description": "Schema-driven editor workflows for mapping project data to Unity Localization tables.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.localization": "1.5.9"
+  },
+  "keywords": [
+    "localization",
+    "editor",
+    "scriptableobject"
+  ],
+  "author": {
+    "name": "siyan12"
+  },
+  "license": "MIT",
+  "samples": [
+    {
+      "displayName": "Generic Item Catalog",
+      "description": "A fictional ScriptableObject catalog that demonstrates package and sample assembly boundaries.",
+      "path": "Samples~/ItemDatabaseExample"
+    }
+  ]
+}
