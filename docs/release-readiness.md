@@ -2,27 +2,26 @@
 
 ## 结论
 
-当前仓库适合作为 **pre-alpha / foundation scaffold** 公开，用于展示项目方向、Unity Package Manager 包结构、开放 Agent Skill 和 Codex 适配层的初始设计；它尚不适合作为“可用的本地化工具”发布。
+当前仓库适合作为 **pre-alpha / read-only core** 公开，用于展示项目方向、Unity Package Manager 包结构、开放 Agent Skill、Codex 适配层，以及可测试的 schema/扫描/key/验证内核；它尚不适合作为能够安全写回资产的完整本地化工具发布。
 
-如果本次发布仅公开脚手架，应在 README、GitHub Release 和版本标签中明确说明尚无可运行的编辑器实现、公共 schema 未定稿、示例和验证流程仍待完成。如果发布说明承诺能够扫描项目数据、生成 key、写入 Localization tables 或执行完整校验，则以下阻断项必须先解决。
+如果发布当前只读内核，应在 README、GitHub Release 和版本标签中明确说明尚无 review UI 或事务式 Apply。如果发布说明承诺能够写入 Localization tables 或回写 `LocalizedString`，则以下阻断项必须先解决。
 
 ## 阻断可用 release 的项目
 
-1. **功能闭环尚不存在。** Schema v1、领域模型与稳定诊断已实现，但扫描、key 生成、Localization table 读取、验证和 Apply 服务仍未形成可用闭环。
-2. **后续行为测试尚未实现。** Schema 读取、版本、必填字段、身份、模板和领域默认值已有 EditMode 覆盖；仍需覆盖 key 生成、已有 key 复用、重复 key 占用、缺失 locale value、placeholder parity 和写表前 dry-run。
+1. **写入闭环尚不存在。** Schema v1、扫描、key 生成、Localization table 只读解析和结构化验证已实现，但 review UI 和事务式 Apply/引用回写尚未完成。
+2. **Apply 行为测试尚未实现。** Schema、扫描、key 生成与 ownership、重复 key、required locale、placeholder parity 和 dry-run 已有 EditMode 覆盖；仍需覆盖事务式写表、引用回写、Undo、stale draft 与幂等性。
 3. **CI 尚未完成首次远端运行。** Unity 2022.3 fixture、失败阻断脚本和 GitHub Actions 工作流已经存在，并已在 2022.3.62f3 中人工和本地 batchmode 通过；仍需配置 Unity license secrets 并取得首次 CI 通过记录。
 4. **Sample 仍是骨架示例。** Generic Item Catalog 已可从 Package Manager 导入并编译，Schema v1 文档可以表达该虚构类型，但尚未展示扫描到 String Table 的完整、可复现流程。
-5. **尚无可发布的 Git 历史。** 审查时仓库仍没有首个提交，文件均未跟踪，也没有远端配置。发布前需要审阅提交范围、建立干净的初始提交并配置 GitHub 远端。
+5. **Git 历史尚未发布。** A+B 基线提交已存在于本地，但尚未推送；C 与 D 仍是未暂存改动。发布前需要分别审阅提交边界、提交公开文件并配置或确认 GitHub 远端。
 
 ## 优先改进
 
 ### P0：形成最小可用核心
 
-- 定义版本化、与具体游戏数据模型无关的 schema。
-- 将扫描、key 生成、已有引用解析和验证实现为可单元测试的纯逻辑层。
+- 保持版本化 schema、扫描、key、引用解析和验证内核的公共契约稳定。
 - 增加 Unity Localization adapter，通过 Editor API 执行查表、创建 key、写入 locale table、回写 `LocalizedString`、Undo、dirty 和 save。
 - Apply 前提供 dry-run 和冲突报告；不得静默覆盖由其他资产占用的 key。
-- 校验 required locale 缺表/缺值、空 key、重复 key 归属和 Smart String placeholder parity。
+- 实现事务式 Apply、引用回写、Undo、stale draft 拒绝和幂等性测试。
 - 增加 Editor tests，并在 CI 中运行。
 
 ### P1：完成可复现使用体验
@@ -58,6 +57,7 @@
 - 已提供本地 batchmode 验证脚本和 GitHub Actions EditMode 工作流；测试失败或零测试会阻断任务。
 - Schema v1 Asset、规范化 Definition、领域模型和稳定诊断 code 已实现并记录在 `docs/schema-v1.md`。
 - Unity 2022.3.62f3 干净临时 fixture 的 batchmode 导入、编译和 19 个 EditMode tests 已全部通过。
+- 里程碑 D 后再次使用无 `Library` 的全新 fixture 验证，首次导入/编译成功，47 个 EditMode tests 全部通过。
 - `.gitignore` 已覆盖主要 Unity 缓存、构建目录和常见 IDE 产物。
 - 未发现疑似 API key、访问令牌、私钥或密码。
 - 未发现写入文档或源码的本机用户绝对路径。

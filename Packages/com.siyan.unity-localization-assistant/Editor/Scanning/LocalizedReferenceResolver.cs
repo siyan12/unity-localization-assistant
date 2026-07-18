@@ -113,7 +113,9 @@ namespace Siyan.UnityLocalizationAssistant.Editor
                     LocaleIdentifier = localeCode,
                     ExistingValue = entry?.LocalizedValue ?? string.Empty,
                     ProposedValue = string.Empty,
-                    ChangeKind = ChangeKind.None
+                    ChangeKind = ChangeKind.None,
+                    TableExists = table != null,
+                    EntryExists = entry != null
                 });
             }
 

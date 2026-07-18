@@ -79,11 +79,15 @@ namespace Siyan.UnityLocalizationAssistant.Editor
         [SerializeField] private string existingValue = string.Empty;
         [SerializeField] private string proposedValue = string.Empty;
         [SerializeField] private ChangeKind changeKind;
+        [SerializeField] private bool tableExists;
+        [SerializeField] private bool entryExists;
 
         public string LocaleIdentifier { get => localeIdentifier; set => localeIdentifier = value ?? string.Empty; }
         public string ExistingValue { get => existingValue; set => existingValue = value ?? string.Empty; }
         public string ProposedValue { get => proposedValue; set => proposedValue = value ?? string.Empty; }
         public ChangeKind ChangeKind { get => changeKind; set => changeKind = value; }
+        public bool TableExists { get => tableExists; set => tableExists = value; }
+        public bool EntryExists { get => entryExists; set => entryExists = value; }
     }
 
     [Serializable]

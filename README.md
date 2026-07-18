@@ -22,13 +22,13 @@ The skill does not grant capabilities by itself. An agent still needs access to 
 | Open Agent Skills format | Scaffold validated | Canonical `skills/unity-localization-assistant/SKILL.md` |
 | Codex | Adapter scaffold included | `.codex-plugin/plugin.json` distributes the canonical skill |
 | Other skills-compatible clients | Portable content, not yet verified per client | Install or link the canonical skill using the client's supported skill location |
-| Unity automation | Read-only scanning available | `SchemaScanner`, `Tests/UnityProject`, local batchmode script, and GitHub Actions EditMode workflow |
+| Unity automation | Read-only scanning and validation available | `SchemaScanner`, `LocalizationValidationService`, `Tests/UnityProject`, local batchmode script, and GitHub Actions EditMode workflow |
 
 Compatibility means that the workflow contract is portable; it does not promise automatic discovery, identical tool names, or equivalent permissions in every agent client.
 
 ## Status
 
-Milestones A-C are implemented: the package has a testable Unity 2022.3 scaffold, public Schema v1 contracts, and deterministic read-only ScriptableObject scanning that emits localization drafts without modifying assets. Validation and Apply services remain future milestones.
+Milestones A-D are implemented: the package has a testable Unity 2022.3 scaffold, public Schema v1 contracts, deterministic read-only ScriptableObject scanning, normalized key ownership, and structured validation reports. Apply remains a future milestone.
 
 ## Validate the package
 
@@ -46,6 +46,7 @@ GitHub Actions runs the same fixture with Unity 2022.3.62f3, the version used fo
 
 See [`docs/testing.md`](docs/testing.md) for Unity Editor and sample-import verification steps.
 See [`docs/scanning.md`](docs/scanning.md) for the read-only scanner contract and current limitations.
+See [`docs/key-and-validation.md`](docs/key-and-validation.md) for key normalization, ownership, and validation behavior.
 
 ## Planning and research
 

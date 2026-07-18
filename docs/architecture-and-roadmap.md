@@ -300,6 +300,8 @@ Packages/com.siyan.unity-localization-assistant/
 
 ### 里程碑 D：实现 key 与验证引擎
 
+状态：已于 2026-07-18 实施。提供确定性 key 展开与字符规范化、全扫描 ownership 索引、结构化验证报告，以及 identity、key 冲突、引用、required locale、placeholder parity 和集合 identity 诊断。Schema v1 未定义 legacy alias 字段，因此本阶段以 `RenameKey` 草稿提供 rename preview，不隐式升级 schema 或删除旧 key。
+
 任务：
 
 1. 实现稳定 key template 和字符规范化。

@@ -24,15 +24,24 @@ namespace Siyan.UnityLocalizationAssistant.Editor
     public sealed class SchemaScanner
     {
         private readonly LocalizedReferenceResolver referenceResolver;
+        private readonly LocalizationKeyService keyService;
 
         public SchemaScanner()
-            : this(new LocalizedReferenceResolver())
+            : this(new LocalizedReferenceResolver(), new LocalizationKeyService())
         {
         }
 
         public SchemaScanner(LocalizedReferenceResolver referenceResolver)
+            : this(referenceResolver, new LocalizationKeyService())
+        {
+        }
+
+        public SchemaScanner(
+            LocalizedReferenceResolver referenceResolver,
+            LocalizationKeyService keyService)
         {
             this.referenceResolver = referenceResolver ?? throw new ArgumentNullException(nameof(referenceResolver));
+            this.keyService = keyService ?? throw new ArgumentNullException(nameof(keyService));
         }
 
         public SchemaScanResult Scan(LocalizationSchemaDefinition schema)
@@ -125,7 +134,11 @@ namespace Siyan.UnityLocalizationAssistant.Editor
             }
 
             var elementIdentity = string.Empty;
-            if (target.IsCollection && !string.IsNullOrEmpty(target.ElementIdPath))
+            if (target.IsCollection && string.IsNullOrEmpty(target.ElementIdPath))
+            {
+                elementIdentity = match.CollectionIndex.ToString(CultureInfo.InvariantCulture);
+            }
+            else if (target.IsCollection)
             {
                 var elementIdentityProperty = match.CollectionElement?.FindPropertyRelative(target.ElementIdPath);
                 if (!TryReadScalar(elementIdentityProperty, out elementIdentity) || string.IsNullOrWhiteSpace(elementIdentity))
@@ -141,10 +154,11 @@ namespace Siyan.UnityLocalizationAssistant.Editor
             }
 
             var keyTemplate = string.IsNullOrEmpty(target.KeyTemplate) ? schema.KeyTemplate : target.KeyTemplate;
-            var suggestedKey = keyTemplate
-                .Replace("{sourceId}", sourceIdentity)
-                .Replace("{targetId}", target.TargetId)
-                .Replace("{elementId}", elementIdentity);
+            var suggestedKey = keyService.Expand(
+                keyTemplate,
+                sourceIdentity,
+                target.TargetId,
+                elementIdentity);
             var changeKind = ChangeKind.None;
             if (snapshot.EntryReference.ReferenceType == TableEntryReference.Type.Empty || !snapshot.EntryResolved)
                 changeKind = ChangeKind.CreateKey | ChangeKind.AssignReference;
@@ -257,7 +271,7 @@ namespace Siyan.UnityLocalizationAssistant.Editor
                 return results;
 
             var segments = configuredPath.Split('.');
-            ResolvePathSegment(serializedObject, null, null, segments, 0, results);
+            ResolvePathSegment(serializedObject, null, null, -1, segments, 0, results);
             return results;
         }
 
@@ -265,6 +279,7 @@ namespace Siyan.UnityLocalizationAssistant.Editor
             SerializedObject serializedObject,
             SerializedProperty parent,
             SerializedProperty collectionElement,
+            int collectionIndex,
             IReadOnlyList<string> segments,
             int segmentIndex,
             ICollection<ResolvedTargetProperty> results)
@@ -290,20 +305,20 @@ namespace Siyan.UnityLocalizationAssistant.Editor
                 {
                     var element = property.GetArrayElementAtIndex(index);
                     if (segmentIndex == segments.Count - 1)
-                        results.Add(new ResolvedTargetProperty(element.Copy(), element.Copy()));
+                        results.Add(new ResolvedTargetProperty(element.Copy(), element.Copy(), index));
                     else
-                        ResolvePathSegment(serializedObject, element, element, segments, segmentIndex + 1, results);
+                        ResolvePathSegment(serializedObject, element, element, index, segments, segmentIndex + 1, results);
                 }
                 return;
             }
 
             if (segmentIndex == segments.Count - 1)
             {
-                results.Add(new ResolvedTargetProperty(property.Copy(), collectionElement?.Copy()));
+                results.Add(new ResolvedTargetProperty(property.Copy(), collectionElement?.Copy(), collectionIndex));
                 return;
             }
 
-            ResolvePathSegment(serializedObject, property, collectionElement, segments, segmentIndex + 1, results);
+            ResolvePathSegment(serializedObject, property, collectionElement, collectionIndex, segments, segmentIndex + 1, results);
         }
 
         private static bool IsSerializedPathValid(Type sourceType, string configuredPath)
@@ -408,14 +423,19 @@ namespace Siyan.UnityLocalizationAssistant.Editor
 
         private sealed class ResolvedTargetProperty
         {
-            public ResolvedTargetProperty(SerializedProperty property, SerializedProperty collectionElement)
+            public ResolvedTargetProperty(
+                SerializedProperty property,
+                SerializedProperty collectionElement,
+                int collectionIndex)
             {
                 Property = property;
                 CollectionElement = collectionElement;
+                CollectionIndex = collectionIndex;
             }
 
             public SerializedProperty Property { get; }
             public SerializedProperty CollectionElement { get; }
+            public int CollectionIndex { get; }
         }
     }
 }

@@ -11,7 +11,7 @@
 - Reads nested element identities relative to each collection element.
 - Preserves existing `LocalizedString` table and entry references on each draft. Name references are preserved directly; ID references are resolved through the referenced string table collection, with stable diagnostics for unresolved tables or entries.
 - Reads existing locale values from the referenced collection and includes configured required locales even when their value is missing.
-- Expands the schema key template into a suggested key and assigns a draft `ChangeKind` without writing it back. A reference that points at a different collection from the schema always produces `AssignReference`, even when its key text already matches.
+- Expands and normalizes the schema key template through `LocalizationKeyService`, then assigns a draft `ChangeKind` without writing it back. A reference that points at a different collection from the schema always produces `AssignReference`, even when its key text already matches.
 - Sorts drafts by source asset path, concrete serialized property path, and target ID.
 
 ## Dry-run guarantee
@@ -20,4 +20,4 @@ Scanning does not call `ApplyModifiedProperties`, `SetDirty`, `SaveAssets`, or a
 
 ## Current limits
 
-This milestone does not validate key ownership, normalize key characters, propose translated values, detect placeholder parity, or apply changes. Those responsibilities belong to the validation, value-provider, and transactional Apply milestones.
+Scanning itself does not validate cross-entry ownership, propose translated values, or apply changes. Pass its result to `LocalizationValidationService`; key and validation behavior is documented in `docs/key-and-validation.md`.
